@@ -15,7 +15,7 @@ export default function Navbar() {
     'Vedette',
     'Createurs',
     'Contact',
-    'À propos',
+    'about',
   ];
 
   const getHref = (item: string) =>
