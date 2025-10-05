@@ -11,9 +11,9 @@ export default function Navbar() {
   const menuItems = [
     'Accueil',
     'Menu',
-    'Galerie',
+    'Gallery',
     'Vedette',
-    'Créateurs',
+    'Createurs',
     'Contact',
     'À propos',
   ];
