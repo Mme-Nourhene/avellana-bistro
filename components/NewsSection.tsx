@@ -8,21 +8,9 @@ type NewsItem = {
 };
 
 const news: NewsItem[] = [
-  {
-    title: 'Nouveau café matcha',
-    description: 'Découvrez notre nouveau café matcha biologique, un délice pour vos papilles.',
-    image: '/news/matcha.jpg',
-  },
-  {
-    title: 'Atelier pâtisserie',
-    description: 'Participez à notre atelier pour apprendre à faire des croissants maison.',
-    image: '/news/patisserie.jpg',
-  },
-  {
-    title: 'Happy Hour',
-    description: 'Profitez de nos boissons à prix réduits tous les vendredis de 17h à 19h.',
-    image: '/news/happyhour.jpg',
-  },
+  { title: 'Nouveau café matcha', description: 'Découvrez notre nouveau café matcha biologique, un délice pour vos papilles.', image: '/news/matcha.jpg' },
+  { title: 'Atelier pâtisserie', description: 'Participez à notre atelier pour apprendre à faire des croissants maison.', image: '/news/patisserie.jpg' },
+  { title: 'Happy Hour', description: 'Profitez de nos boissons à prix réduits tous les vendredis de 17h à 19h.', image: '/news/happyhour.jpg' },
 ];
 
 export default function NewsSection() {
@@ -39,11 +27,7 @@ export default function NewsSection() {
             transition={{ duration: 0.6, delay: index * 0.2 }}
             className="bg-[#F5F0E1] rounded-xl shadow-lg overflow-hidden"
           >
-            <img
-              src={item.image}
-              alt={item.title}
-              className="w-full h-48 object-cover"
-            />
+            <img src={item.image} alt={item.title} className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="font-bold text-xl mb-2 text-[#4B2E2E]">{item.title}</h3>
               <p className="text-gray-700">{item.description}</p>

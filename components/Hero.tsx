@@ -9,7 +9,6 @@ export default function Hero() {
       className="relative h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url(/hero-coffee.jpg)' }}
     >
-      {/* Overlay sombre */}
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
@@ -28,7 +27,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-xl md:text-3xl text-[#D9CBB8] mb-8"
         >
-          عيش معانا
+          {`Vivez un moment unique chez nous`}
         </motion.p>
 
         <motion.div

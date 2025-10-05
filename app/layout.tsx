@@ -13,15 +13,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
-      <body className="bg-[#F5F0E1] text-[#4B2E2E]">
-        {/* Navbar */}
+    <html lang="fr" className="scroll-smooth">
+      <body className="bg-[#F5F0E1] text-[#4B2E2E] selection:bg-amber-200 selection:text-[#4B2E2E]">
+        {/* Navbar sticky avec effet glass */}
         <Navbar />
 
         {/* Contenu principal */}
         <main className="mt-[80px]">{children}</main>
 
-        {/* Footer */}
+        {/* Footer moderne */}
         <Footer />
       </body>
     </html>

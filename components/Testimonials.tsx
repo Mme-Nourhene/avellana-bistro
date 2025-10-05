@@ -2,18 +2,9 @@
 import { motion } from 'framer-motion';
 
 const testimonials = [
-  {
-    name: 'Sophie L.',
-    text: 'Le café est incroyable et l’ambiance cosy donne envie de rester toute la journée !',
-  },
-  {
-    name: 'Amine K.',
-    text: 'Une expérience gustative unique, surtout le matcha latte, un vrai régal !',
-  },
-  {
-    name: 'Leila R.',
-    text: 'Service impeccable et décoration élégante. Je recommande vivement !',
-  },
+  { name: 'Sophie L.', text: 'Le café est incroyable et l’ambiance cosy donne envie de rester toute la journée !' },
+  { name: 'Amine K.', text: 'Une expérience gustative unique, surtout le matcha latte, un vrai régal !' },
+  { name: 'Leila R.', text: 'Service impeccable et décoration élégante. Je recommande vivement !' },
 ];
 
 export default function Testimonials() {
