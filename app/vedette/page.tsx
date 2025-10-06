@@ -41,14 +41,34 @@ export default function VedettePage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!openModal) return;
-    setOpenModal(null);
-    setConfirmation(
-      `Salut ${formData.name} ! Votre commande "${openModal.title}" (taille ${formData.size}) sera prête au café.`
-    );
-    setFormData({ name: '', phone: '', size: '' });
+
+    try {
+      const res = await fetch('/api/vedette', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          size: formData.size,
+          product: openModal.title,
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setConfirmation(`Salut ${formData.name} ! Votre commande "${openModal.title}" (taille ${formData.size}) sera prête au café.`);
+        setFormData({ name: '', phone: '', size: '' });
+        setOpenModal(null);
+      } else {
+        alert('❌ Erreur lors de l’envoi. Veuillez réessayer.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('⚠️ Une erreur est survenue. Veuillez réessayer.');
+    }
   };
 
   return (
@@ -74,7 +94,7 @@ export default function VedettePage() {
         </motion.div>
       </section>
 
-      {/* Articles style e-commerce */}
+      {/* Articles */}
       <section className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((article) => (
@@ -83,7 +103,6 @@ export default function VedettePage() {
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300"
               whileHover={{ scale: 1.02 }}
             >
-              {/* Image produit */}
               <div className="relative w-full h-64">
                 <Image
                   src={article.image}
@@ -92,8 +111,6 @@ export default function VedettePage() {
                   className="object-contain p-4"
                 />
               </div>
-
-              {/* Détails produit */}
               <div className="p-6 flex flex-col gap-3 text-center">
                 <h3 className="text-xl font-bold text-[#4B2E2E]">{article.title}</h3>
                 <p className="text-sm text-gray-600">{article.description}</p>
@@ -110,7 +127,7 @@ export default function VedettePage() {
         </div>
       </section>
 
-      {/* Formulaire modal */}
+      {/* Modal */}
       {openModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <motion.div
@@ -140,6 +157,7 @@ export default function VedettePage() {
               <input
                 type="tel"
                 name="phone"
+                pattern="[0-9]{2} ?[0-9]{3} ?[0-9]{3}"
                 placeholder="Votre téléphone"
                 value={formData.phone}
                 onChange={handleChange}
@@ -155,9 +173,7 @@ export default function VedettePage() {
               >
                 <option value="">Choisir la taille</option>
                 {openModal.sizes.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
+                  <option key={s} value={s}>{s}</option>
                 ))}
               </select>
               <button

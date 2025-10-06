@@ -1,4 +1,4 @@
-'use client'; // ← important pour Framer Motion
+'use client'; 
 
 import Hero from '../components/Hero';
 import NewsSection from '../components/NewsSection';

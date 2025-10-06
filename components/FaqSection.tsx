@@ -2,8 +2,8 @@
 import { useState } from 'react';
 
 const faqItems = [
-  { question: 'Quels sont vos horaires d’ouverture ?', answer: 'Nous sommes ouverts du lundi au dimanche, de 8h à 20h.' },
-  { question: 'Proposez-vous des options végétariennes ?', answer: 'Oui, nous avons plusieurs boissons et pâtisseries végétariennes.' },
+  { question: 'Quels sont vos horaires d’ouverture ?', answer: 'Nous sommes ouverts du lundi au dimanche, de 6h à 23h.' },
+  { question: 'Proposez-vous le Wi-Fi gratuit ?', answer: 'Oui, le Wi-Fi est gratuit pour tous nos clients.' },
   { question: 'Peut-on réserver pour des groupes ?', answer: 'Oui, contactez-nous par téléphone ou via le formulaire en ligne.' },
 ];
 

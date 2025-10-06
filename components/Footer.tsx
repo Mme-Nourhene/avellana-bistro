@@ -1,11 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { FaWhatsapp, FaInstagram, FaFacebookF, FaTiktok, FaCalendarAlt, FaClock } from 'react-icons/fa';
+import { FaWhatsapp, FaInstagram, FaFacebookF, FaTiktok, FaCalendarAlt, FaClock, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Footer() {
   const [showModal, setShowModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,11 +20,26 @@ export default function Footer() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Merci ! Votre réservation a été envoyée.');
-    setFormData({ name: '', email: '', phone: '', date: '', time: '', event: '' });
-    setShowModal(false);
+    try {
+      const res = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setShowSuccess(true);
+        setFormData({ name: '', email: '', phone: '', date: '', time: '', event: '' });
+        setShowModal(false);
+      } else {
+        alert('Erreur lors de l’envoi de la réservation.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erreur réseau.');
+    }
   };
 
   return (
@@ -74,103 +90,90 @@ export default function Footer() {
       </div>
 
       {/* Modal de réservation */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+      <AnimatePresence>
+        {showModal && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="bg-[#FFF5E1] p-8 rounded-3xl shadow-2xl w-full max-w-lg relative"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
           >
-            {/* Bouton fermer */}
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-[#3B1F1F] font-bold text-lg hover:text-red-500"
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[#FFF5E1] p-8 rounded-3xl shadow-2xl w-full max-w-lg relative"
             >
-              ✕
-            </button>
-
-            <h2 className="text-2xl font-serif font-bold text-[#3B1F1F] mb-6 text-center">
-              Réservez votre moment
-            </h2>
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-gray-700">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Votre nom"
-                className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none text-gray-700"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Votre email"
-                className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none text-gray-700"
-                required
-              />
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Votre numéro de téléphone"
-                className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none text-gray-700"
-                required
-              />
-
-              <div className="flex gap-4">
-                <div className="flex-1 relative">
-                  <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-[#A3B18A]" />
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="p-3 pl-10 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none w-full text-gray-700"
-                    required
-                  />
-                </div>
-                <div className="flex-1 relative">
-                  <FaClock className="absolute top-1/2 left-3 -translate-y-1/2 text-[#A3B18A]" />
-                  <input
-                    type="time"
-                    name="time"
-                    value={formData.time}
-                    onChange={handleChange}
-                    className="p-3 pl-10 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none w-full text-gray-700"
-                    required
-                  />
-                </div>
-              </div>
-
-              <select
-                name="event"
-                value={formData.event}
-                onChange={handleChange}
-                className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none text-gray-700"
-                required
-              >
-                <option value="">{`Type d'événement`}</option>
-                <option value="café entre amis">{`Café entre amis`}</option>
-                <option value="réunion professionnelle">{`Réunion professionnelle`}</option>
-                <option value="événement spécial">{`Événement spécial`}</option>
-              </select>
-
               <button
-                type="submit"
-                className="mt-2 bg-[#A3B18A] text-[#3B1F1F] font-bold rounded-xl py-3 hover:bg-[#7A8450] transition"
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-[#3B1F1F] font-bold text-lg hover:text-red-500"
               >
-                Envoyer
+                ✕
               </button>
-            </form>
+
+              <h2 className="text-2xl font-serif font-bold text-[#3B1F1F] mb-6 text-center">
+                Réservez votre moment
+              </h2>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-gray-700">
+                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Votre nom" className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none" required />
+                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Votre email" className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none" required />
+                <input type="tel" name="phone" value={formData.phone} pattern="[0-9]{2} ?[0-9]{3} ?[0-9]{3}" onChange={handleChange} placeholder="Votre numéro de téléphone" className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none" required />
+
+                <div className="flex gap-4">
+                  <div className="flex-1 relative">
+                    <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-[#A3B18A]" />
+                    <input type="date" name="date" value={formData.date} onChange={handleChange} className="p-3 pl-10 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none w-full" required />
+                  </div>
+                  <div className="flex-1 relative">
+                    <FaClock className="absolute top-1/2 left-3 -translate-y-1/2 text-[#A3B18A]" />
+                    <input type="time" name="time" value={formData.time} onChange={handleChange} className="p-3 pl-10 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none w-full" required />
+                  </div>
+                </div>
+
+                <select name="event" value={formData.event} onChange={handleChange} className="p-3 rounded-xl border border-[#A3B18A] focus:ring-2 focus:ring-[#A3B18A] focus:outline-none" required>
+                  <option value="">{`Type d'événement`}</option>
+                  <option value="Réunion professionnelle">Réunion professionnelle</option>
+                  <option value="Événement spécial">Événement spécial</option>
+                </select>
+
+                <button type="submit" className="mt-2 bg-[#A3B18A] text-[#3B1F1F] font-bold rounded-xl py-3 hover:bg-[#7A8450] transition">
+                  Envoyer
+                </button>
+              </form>
+            </motion.div>
           </motion.div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
+
+      {/* Modal de succès */}
+      <AnimatePresence>
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 max-w-sm text-center relative"
+            >
+              <button onClick={() => setShowSuccess(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <FaTimes size={20} />
+              </button>
+              <FaCheckCircle className="text-[#A3B18A] text-5xl mb-4 mx-auto" />
+              <h2 className="text-2xl font-bold mb-4 text-[#A3B18A]">Réservation envoyée !</h2>
+              <p className="text-gray-700 mb-6"> Merci, votre réservation a bien été envoyée. Nous vous répondrons très bientôt.</p>
+              <button onClick={() => setShowSuccess(false)} className="bg-[#A3B18A] text-[#3B1F1F] font-bold rounded-xl py-2 px-6 hover:bg-[#7A8450] transition">Fermer</button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="mt-12 border-t border-[#A3B18A]/40 pt-6 text-center text-sm text-[#D9CBB8]">
         © {new Date().getFullYear()} avellana bistro. Tous droits réservés.
