@@ -1,8 +1,9 @@
 'use client';
+
 import { useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import PageHero from '@/components/PageHero';
 
 const images = [
   '/gallery1.jpg',
@@ -17,45 +18,33 @@ const images = [
 
 export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState<number>(0);
 
   const handleNext = () => {
     if (selectedIndex !== null) {
+      setDirection(1);
       setSelectedIndex((selectedIndex + 1) % images.length);
     }
   };
 
   const handlePrev = () => {
     if (selectedIndex !== null) {
+      setDirection(-1);
       setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
     }
   };
 
   return (
-    <main className="mt-20">
-      {/* Hero */}
-      <section
-        className="relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/gallery-hero.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <motion.div
-          className="relative z-10 text-center px-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold text-[#FFF8E7] mb-4 drop-shadow-lg">
-            Un instant, une ambiance{' '}
-            <span className="text-[#A3B18A]">avellana bistro</span>
-          </h1>
-          <p className="text-lg md:text-xl text-[#FFF5E1]">
-            Découvrez l’âme de notre café en images
-          </p>
-        </motion.div>
-      </section>
+    <main className="mt-0">
+      {/* Hero section */}
+      <PageHero
+        title="Instantané"
+        subtitle="Découvrez l’âme de notre café en images"
+        image="/page-hero.jpg"
+      />
 
-      {/* Galerie en mode Pinterest */}
-      <section className="container mx-auto px-6 py-20">
+      {/* Pinterest-style gallery */}
+      <section className="px-6 py-20">
         <motion.div
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6"
           initial="hidden"
@@ -91,43 +80,46 @@ export default function GalleryPage() {
       </section>
 
       {/* Lightbox */}
-      {selectedIndex !== null && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
-          <button
-            onClick={() => setSelectedIndex(null)}
-            className="absolute top-6 right-6 text-white text-3xl"
-          >
-            <FaTimes />
-          </button>
-          <button
-            onClick={handlePrev}
-            className="absolute left-6 text-white text-3xl"
-          >
-            <FaChevronLeft />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-6 text-white text-3xl"
-          >
-            <FaChevronRight />
-          </button>
-
+      <AnimatePresence>
+        {selectedIndex !== null && (
           <motion.div
-            key={selectedIndex}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="relative w-[90%] md:w-[70%] h-[70vh]"
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedIndex(null)} // fermer en dehors
           >
-            <Image
-              src={images[selectedIndex]}
-              alt="big view"
-              fill
-              className="object-contain"
-            />
+            {/* Container centré */}
+            <div
+              className="relative w-full max-w-5xl h-[70vh] flex items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()} // empêche la fermeture sur clic image
+            >
+              {/* Image glissable */}
+              <motion.div
+                key={selectedIndex}
+                className="relative w-full h-full"
+                initial={{ x: direction > 0 ? 300 : -300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: direction > 0 ? -300 : 300, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                onDragEnd={(e, info) => {
+                  if (info.offset.x > 100) handlePrev();
+                  else if (info.offset.x < -100) handleNext();
+                }}
+              >
+                <Image
+                  src={images[selectedIndex]}
+                  alt="big view"
+                  fill
+                  className="object-contain select-none pointer-events-none"
+                />
+              </motion.div>
+            </div>
           </motion.div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </main>
   );
 }

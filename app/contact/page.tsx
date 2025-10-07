@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Button from '@/components/Button';
 import { FaClock, FaMapMarkerAlt, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import PageHero from '@/components/PageHero';
 
 export default function ContactPage() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -36,27 +37,18 @@ export default function ContactPage() {
 
   return (
     <main className="mt-0 relative">
-      {/* Hero */}
-      <section
-        className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: 'url(/contact-hero.jpg)' }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
-        <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#FFF8E7] mb-4 tracking-wide drop-shadow-lg">
-            contactez <span className="text-[#A3B18A]">avellana bistro</span>
-          </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-[#FFF5E1] font-medium drop-shadow-md">
-            Partagez votre passion café, on s’occupe du reste ☕️🌿
-          </p>
-        </div>
-      </section>
+      {/* Hero réutilisable pleine largeur */}
+      <PageHero
+        title="Nous trouver"
+        subtitle="Écrivez-nous, Faites-nous découvrir votre univers café, on s’occupe du reste."
+        image="/page-hero.jpg"
+      />
 
       {/* Formulaire & Info */}
-      <section className="container mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+      <section className="px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10 max-w-7xl mx-auto w-full">
         <div className="bg-[#FFF5E1] p-6 sm:p-10 rounded-3xl shadow-xl flex flex-col gap-6">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-[#4B2E2E]">
-            On veut vous entendre !
+            Nous sommes à votre écoute!
           </h2>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input

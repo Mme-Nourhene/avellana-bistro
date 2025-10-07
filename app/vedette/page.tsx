@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import PageHero from '@/components/PageHero'; 
 
 type Article = {
   id: number;
@@ -72,29 +73,15 @@ export default function VedettePage() {
   };
 
   return (
-    <main className="mt-20">
-      {/* Hero */}
-      <section
-        className="relative h-[45vh] md:h-[55vh] flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/vedette-hero.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <motion.div
-          className="relative z-10 text-center px-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold text-[#FFF8E7] mb-4 drop-shadow-lg">
-            Boutique <span className="text-[#A3B18A]">Avellana</span>
-          </h1>
-          <p className="text-lg md:text-xl text-[#FFF5E1]">
-            Découvrez nos articles exclusifs disponibles au café
-          </p>
-        </motion.div>
-      </section>
+    <main className="bg-[#FFF5E1] min-h-screen flex flex-col">
+      {/* ✅ Hero via composant réutilisable */}
+      <PageHero
+        title="À posséder"
+        subtitle="Explorez nos créations uniques, disponibles uniquement chez Avellana."
+        image="/page-hero.jpg"
+      />
 
-      {/* Articles */}
+      {/* 🛍️ Section articles */}
       <section className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((article) => (
@@ -127,7 +114,7 @@ export default function VedettePage() {
         </div>
       </section>
 
-      {/* Modal */}
+      {/* 🪟 Modal commande */}
       {openModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <motion.div
@@ -187,7 +174,7 @@ export default function VedettePage() {
         </div>
       )}
 
-      {/* Confirmation modal */}
+      {/* ✅ Modal de confirmation */}
       {confirmation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <motion.div

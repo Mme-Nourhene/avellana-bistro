@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { FaTimes } from 'react-icons/fa';
+import PageHero from '@/components/PageHero';
 
 type Creator = {
   id: number;
   name: string;
-  phrase: string;  
+  phrase: string;
   description: string;
   image: string;
   products: string[];
@@ -41,19 +42,19 @@ export default function CreateursPage() {
     message: '',
   });
 
-  // 🔹 Gestion des champs texte
+  // Gestion des champs texte
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Gestion du fichier logo
+  // Gestion du fichier logo
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFormData({ ...formData, logo: e.target.files[0] });
     }
   };
 
-  // 🔹 Soumission du formulaire
+  // Soumission du formulaire
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -113,73 +114,76 @@ export default function CreateursPage() {
   };
 
   return (
-    <main className="mt-20">
-      {/* === SECTION HERO === */}
-      <section
-        className="relative h-[45vh] md:h-[55vh] flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/createurs-hero.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <motion.div
-          className="relative z-10 text-center px-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold text-[#FFF8E7] mb-4 drop-shadow-lg">
-            Nos <span className="text-[#A3B18A]">Créateurs Locaux</span>
-          </h1>
-          <p className="text-lg md:text-xl text-[#FFF5E1] max-w-2xl mx-auto">
-            Avellana Bistro soutient les artisans & petits producteurs locaux en leur offrant une vitrine pour leurs créations.
-          </p>
-        </motion.div>
+    <main className="mt-0 relative">
+      {/* Hero réutilisable pleine largeur */}
+      <PageHero
+        title="À découvrir"
+        subtitle="Chez Avellana Bistro, nous mettons en lumière les talents locaux en leur offrant une vitrine pour leurs œuvres."
+        image="/page-hero.jpg"
+      />
+
+      {/* === SECTION CARTES FLIP === */}
+      <section className="flex flex-col justify-center items-center py-20">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-10 w-full max-w-lg">
+          {creators.map((creator) => (
+            <div
+              key={creator.id}
+              className="perspective w-full h-80"
+              onClick={(e) => {
+                const card = e.currentTarget.querySelector('.flip-card') as HTMLElement;
+                card?.classList.toggle('rotate');
+              }}
+            >
+              <div className="flip-card relative w-full h-full duration-700 [transform-style:preserve-3d] cursor-pointer">
+                {/* Recto */}
+                <div className="absolute w-full h-full [backface-visibility:hidden] bg-white rounded-3xl shadow-lg flex flex-col items-center justify-center p-4 text-center">
+                  <div className="w-3/4 h-3/4 relative mb-4">
+                    <Image
+                      src={creator.image}
+                      alt={creator.name}
+                      fill
+                      className="object-contain rounded-2xl"
+                    />
+                  </div>
+                  <h2 className="text-xl font-bold text-[#4B2E2E]">{creator.name}</h2>
+                  <p className="text-gray-600 mt-1">{creator.phrase}</p>
+                </div>
+
+                {/* Verso */}
+                <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-[#FFF5E1] rounded-3xl shadow-lg flex items-center justify-center p-4">
+                  <div className="w-4/5 h-4/5 relative">
+                    <Image
+                      src="/miel-thym.jpg"
+                      alt="Produit"
+                      fill
+                      className="object-contain rounded-2xl"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bouton sous les cartes */}
+        <div className="mt-10 text-center">
+          <button
+            onClick={() => setShowModal(true)}
+            className="px-8 py-4 bg-[#4B2E2E] text-[#FFF8E7] font-semibold rounded-full text-lg hover:bg-[#6A3F3F] transition"
+          >
+            Devenir créateur partenaire
+          </button>
+        </div>
       </section>
 
-    <section className="flex flex-col justify-center items-center py-20">
-  {/* Cartes créateurs */}
-  <div className="grid grid-cols-1 md:grid-cols-1 gap-10 w-full max-w-lg">
-    {creators.map((creator) => (
-      <div key={creator.id} className="perspective w-full h-80">
-        <div className="relative w-full h-full duration-700 [transform-style:preserve-3d] hover:[transform:rotateY(180deg)] cursor-pointer">
-          {/* Recto */}
-          <div className="absolute w-full h-full [backface-visibility:hidden] bg-white rounded-3xl shadow-lg flex flex-col items-center justify-center p-4 text-center">
-            <div className="w-3/4 h-3/4 relative mb-4">
-              <Image
-                src={creator.image}
-                alt={creator.name}
-                fill
-                className="object-contain rounded-2xl"
-              />
-            </div>
-            <h2 className="text-xl font-bold text-[#4B2E2E]">{creator.name}</h2>
-            <p className="text-gray-600 mt-1">{creator.phrase}</p>
-          </div>
-          {/* Verso */}
-          <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] bg-[#FFF5E1] rounded-3xl shadow-lg flex items-center justify-center p-4">
-            <div className="w-4/5 h-4/5 relative">
-              <Image
-                src="/miel-thym.jpg"
-                alt="Produit"
-                fill
-                className="object-contain rounded-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-
-  {/* Bouton juste en dessous des cartes */}
-  <div className="mt-10 text-center">
-    <button
-      onClick={() => setShowModal(true)}
-      className="px-8 py-4 bg-[#4B2E2E] text-[#FFF8E7] font-semibold rounded-full text-lg hover:bg-[#6A3F3F] transition"
-    >
-      🤝 Devenir créateur partenaire
-    </button>
-  </div>
-</section>
+      <style jsx>{`
+        .perspective {
+          perspective: 1000px;
+        }
+        .flip-card.rotate {
+          transform: rotateY(180deg);
+        }
+      `}</style>
 
       {/* === MODAL FORMULAIRE === */}
       <AnimatePresence>
@@ -188,20 +192,21 @@ export default function CreateursPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
           >
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
               transition={{ duration: 0.3 }}
-              className="bg-[#FFF8E7] p-8 rounded-3xl shadow-2xl w-full max-w-lg relative"
+              className="bg-[#FFF8E7] p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-lg relative overflow-y-auto max-h-[90vh]"
             >
+              {/* Bouton X pour fermer */}
               <button
                 onClick={() => setShowModal(false)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-red-500"
+                className="absolute top-4 right-4 text-gray-500 hover:text-red-500 z-50"
               >
-                <FaTimes size={20} />
+                <FaTimes size={24} />
               </button>
 
               <h2 className="text-2xl font-bold text-[#4B2E2E] mb-6 text-center">
@@ -286,24 +291,24 @@ export default function CreateursPage() {
       </AnimatePresence>
 
       {/* === ALERTE DE SUCCÈS === */}
-{showSuccess && (
-  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full text-center flex flex-col items-center gap-4">
-      <h3 className="text-xl font-bold text-[#4B2E2E]">
-        Votre demande a été envoyée avec succès !
-      </h3>
-      <p className="text-gray-600 text-sm">
-        Nous reviendrons vers vous très bientôt.
-      </p>
-      <button
-        onClick={() => setShowSuccess(false)}
-        className="mt-2 bg-[#A3B18A] text-[#FFF8E7] rounded-xl px-6 py-2 font-semibold hover:bg-[#8B9C6F] transition"
-      >
-        Fermer
-      </button>
-    </div>
-  </div>
-)}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full text-center flex flex-col items-center gap-4">
+            <h3 className="text-xl font-bold text-[#4B2E2E]">
+              Votre demande a été envoyée avec succès !
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Nous reviendrons vers vous très bientôt.
+            </p>
+            <button
+              onClick={() => setShowSuccess(false)}
+              className="mt-2 bg-[#A3B18A] text-[#FFF8E7] rounded-xl px-6 py-2 font-semibold hover:bg-[#8B9C6F] transition"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

@@ -12,24 +12,27 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+        {/* Titre principal */}
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="text-5xl md:text-7xl font-serif font-bold text-[#FFF8E7] mb-4 lowercase tracking-wide"
+          className="text-5xl md:text-7xl font-serif font-bold text-[#FFF8E7] mb-4 lowercase tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]"
         >
           avellana bistro
         </motion.h1>
 
+        {/* Texte arabe plus visible */}
         <motion.p
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-xl md:text-3xl text-[#D9CBB8] mb-8"
+          className="text-3xl md:text-5xl font-semibold text-[#F5E1B7] mb-8 drop-shadow-[0_0_12px_rgba(255,230,190,0.9)]"
         >
-          {`Vivez un moment unique chez nous`}
+          {`عيش معانا`}
         </motion.p>
 
+        {/* Bouton */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

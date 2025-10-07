@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Font et reset */
+/* --- Font et comportement global --- */
 html {
   scroll-behavior: smooth;
 }
+
 body {
   font-family: 'Inter', sans-serif;
+}
+
+/* --- Styles globaux des cartes flip --- */
+.perspective {
+  perspective: 1000px;
+}
+
+.flip-card.rotate {
+  transform: rotateY(180deg);
 }

@@ -105,7 +105,7 @@ export default function MenuSection() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-16 drop-shadow-md"
         >
-          Notre Menu
+          Notre carte raffinée
         </motion.h2>
 
         {/* Grille des catégories */}
