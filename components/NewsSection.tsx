@@ -31,7 +31,15 @@ export default function NewsSection() {
 
   return (
     <section id="news" className="py-16 bg-[#FFF8E7]"> {}
-      <h2 className="text-4xl font-bold text-center text-[#4B2E2E] mb-12">Actualités</h2>
+     <motion.h2
+  initial={{ opacity: 0, y: -30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+  className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-12 drop-shadow-md"
+>
+  Nouveautés
+</motion.h2>
 
       {/* Desktop */}
       <div className="hidden md:flex justify-center flex-wrap gap-6 px-4">

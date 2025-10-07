@@ -40,13 +40,14 @@ export default function AboutPage() {
       {/* Notre équipe */}
       <section className="flex flex-col items-center text-center px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20 max-w-7xl w-full">
         <motion.h2
-          className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl font-bold text-[#4B2E2E] mb-6 sm:mb-8"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          Notre équipe
-        </motion.h2>
+  className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl font-serif font-extrabold text-[#4B2E2E] mb-6 sm:mb-8"
+  initial={{ opacity: 0, y: -30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+>
+  Notre équipe
+</motion.h2>
 
         {/* Grille responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">

@@ -54,9 +54,15 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-20 relative overflow-hidden">
       {/* ✅ En-tête */}
-      <h2 className="text-4xl md:text-5xl font-bold text-center text-[#4B2E2E] mb-12 relative z-10 drop-shadow-sm">
-        Avis de nos clients
-      </h2>
+      <motion.h2
+  initial={{ opacity: 0, y: -30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+  className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-12 relative z-10 drop-shadow-sm"
+>
+  Ce que disent nos clients
+</motion.h2>
 
       <div className="relative flex justify-center items-center z-10">
         <AnimatePresence mode="wait">

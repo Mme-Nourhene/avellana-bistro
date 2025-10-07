@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const faqItems = [
   { question: 'Quels sont vos horaires d’ouverture ?', answer: 'Nous sommes ouverts du lundi au dimanche, de 6h à 23h.' },
@@ -12,7 +13,15 @@ export default function FaqSection() {
 
   return (
     <section id="faq" className="py-16 bg-[#FFF8E7]">
-      <h2 className="text-4xl font-bold text-center text-[#4B2E2E] mb-12">FAQ</h2>
+      <motion.h2
+  initial={{ opacity: 0, y: -30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  viewport={{ once: true }}
+  className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-12 drop-shadow-md"
+>
+  Questions fréquentes
+</motion.h2>
       <div className="container mx-auto max-w-3xl px-4">
         {faqItems.map((item, index) => (
           <div
