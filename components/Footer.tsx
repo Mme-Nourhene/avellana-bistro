@@ -75,12 +75,12 @@ export default function Footer() {
 
         {/* Texte + bouton centré */}
         <div className="flex flex-col items-center md:items-center md:w-1/3 text-center gap-2">
-          <p className="text-sm text-[#EAE2D6]">
+          <p className="text-base font-semibold text-[#A3B18A]">
             Vous souhaitez vivre une expérience unique chez nous ?
           </p>
           <span
             onClick={() => setShowModal(true)}
-            className="inline-block mt-1 text-white bg-[#A3B18A]/20 font-bold py-2 px-5 rounded-full shadow-md hover:bg-[#A3B18A]/40 hover:scale-105 transition cursor-pointer"
+            className="inline-block mt-1 text-[#A3B18A] bg-[#A3B18A]/20 font-bold py-2 px-5 rounded-full shadow-md hover:bg-[#A3B18A]/40 hover:scale-105 transition cursor-pointer"
           >
             Réserver maintenant
           </span>
@@ -89,16 +89,21 @@ export default function Footer() {
         {/* Contact & Réseaux */}
         <div className="flex flex-col items-center md:items-end md:w-1/3 gap-3 text-center md:text-right">
           <h4 className="font-semibold text-lg text-[#FFF5E1]">Contact & Réseaux</h4>
+
+          {/* ✅ Liens mis à jour */}
           <div className="flex justify-center md:justify-end gap-4 text-2xl">
-            {[FaWhatsapp, FaInstagram, FaFacebookF, FaTiktok].map((Icon, i) => (
-              <Link
-                key={i}
-                href="#"
-                className="p-3 bg-[#A3B18A]/20 rounded-full hover:bg-[#A3B18A]/40 transition shadow-md hover:shadow-[#A3B18A]/30"
-              >
-                <Icon />
-              </Link>
-            ))}
+            <Link href="https://wa.me/21628272326" target="_blank" className="p-3 bg-[#A3B18A]/20 rounded-full hover:bg-[#A3B18A]/40 transition shadow-md hover:shadow-[#A3B18A]/30">
+              <FaWhatsapp />
+            </Link>
+            <Link href="https://www.instagram.com/avellana_bistro/" target="_blank" className="p-3 bg-[#A3B18A]/20 rounded-full hover:bg-[#A3B18A]/40 transition shadow-md hover:shadow-[#A3B18A]/30">
+              <FaInstagram />
+            </Link>
+            <Link href="https://www.facebook.com/profile.php?id=61558775106290" target="_blank" className="p-3 bg-[#A3B18A]/20 rounded-full hover:bg-[#A3B18A]/40 transition shadow-md hover:shadow-[#A3B18A]/30">
+              <FaFacebookF />
+            </Link>
+            <Link href="https://www.tiktok.com/@avellana_bistro" target="_blank" className="p-3 bg-[#A3B18A]/20 rounded-full hover:bg-[#A3B18A]/40 transition shadow-md hover:shadow-[#A3B18A]/30">
+              <FaTiktok />
+            </Link>
           </div>
         </div>
       </div>

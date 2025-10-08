@@ -53,18 +53,18 @@ export default function Testimonials() {
 
   return (
     <section id="testimonials" className="py-20 relative overflow-hidden">
-      {/* ✅ En-tête */}
+      {/* En-tête */}
       <motion.h2
   initial={{ opacity: 0, y: -30 }}
   whileInView={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
   viewport={{ once: true }}
-  className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-12 relative z-10 drop-shadow-sm"
+  className="text-4xl md:text-5xl font-serif font-extrabold text-center text-[#4B2E2E] mb-12 drop-shadow-md"
 >
-  Ce que disent nos clients
-</motion.h2>
+        Ce que disent nos clients
+      </motion.h2>
 
-      <div className="relative flex justify-center items-center z-10">
+      <div className="relative flex justify-center items-center z-10 px-4">
         <AnimatePresence mode="wait">
           <motion.article
             key={index}
@@ -72,7 +72,7 @@ export default function Testimonials() {
               nextSlide();
               resetAuto();
             }}
-            className="relative mx-4 cursor-pointer"
+            className="relative cursor-pointer w-full max-w-[420px]"
             drag="x"
             dragElastic={0.15}
             onDragEnd={handleDragEnd}
@@ -81,12 +81,12 @@ export default function Testimonials() {
             exit={{ opacity: 0, scale: 0.9, rotateY: -10, x: -50 }}
             transition={{ duration: 0.7, ease: [0.45, 0, 0.55, 1] }}
           >
-            {/* 💬 Carte unie sans dégradé */}
-            <div className="bg-[#FFFAF2] backdrop-blur-sm rounded-2xl shadow-xl p-8 w-[420px] mx-auto text-center min-h-[330px] flex flex-col justify-center border border-[#e0c9a6]/40 hover:shadow-2xl transition-shadow duration-500">
+            {/* 💬 Carte responsive */}
+            <div className="bg-[#FFFAF2] backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 w-full mx-auto text-center min-h-[300px] sm:min-h-[330px] flex flex-col justify-center border border-[#e0c9a6]/40 hover:shadow-2xl transition-shadow duration-500 overflow-hidden">
               <Stars count={testimonials[index].rating} />
               <motion.p
                 key={`text-${index}`}
-                className="text-gray-700 italic mb-4 text-lg leading-relaxed flex-grow flex items-center justify-center"
+                className="text-gray-700 italic mb-4 text-base sm:text-lg leading-relaxed flex-grow flex items-center justify-center px-2"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
@@ -95,7 +95,7 @@ export default function Testimonials() {
               </motion.p>
               <motion.span
                 key={`name-${index}`}
-                className="font-semibold text-[#4B2E2E] mt-2"
+                className="font-semibold text-[#4B2E2E] mt-2 text-sm sm:text-base"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}

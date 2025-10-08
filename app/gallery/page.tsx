@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaTimes, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import PageHero from '@/components/PageHero';
 
 const images = [
@@ -19,6 +20,14 @@ const images = [
 export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<number>(0);
+  const [isDesktop, setIsDesktop] = useState<boolean>(true);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleNext = () => {
     if (selectedIndex !== null) {
@@ -36,7 +45,6 @@ export default function GalleryPage() {
 
   return (
     <main className="mt-0">
-      {/* Hero section */}
       <PageHero
         title="Instantané"
         subtitle="Découvrez l’âme de notre café en images"
@@ -87,26 +95,26 @@ export default function GalleryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedIndex(null)} // fermer en dehors
+            onClick={() => setSelectedIndex(null)}
           >
-            {/* Container centré */}
             <div
               className="relative w-full max-w-5xl h-[70vh] flex items-center justify-center p-4"
-              onClick={(e) => e.stopPropagation()} // empêche la fermeture sur clic image
+              onClick={(e) => e.stopPropagation()}
             >
-              {/* Image glissable */}
               <motion.div
                 key={selectedIndex}
-                className="relative w-full h-full"
+                className="relative w-full h-full flex items-center justify-center"
                 initial={{ x: direction > 0 ? 300 : -300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: direction > 0 ? -300 : 300, opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                drag="x"
+                drag={!isDesktop ? 'x' : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 onDragEnd={(e, info) => {
-                  if (info.offset.x > 100) handlePrev();
-                  else if (info.offset.x < -100) handleNext();
+                  if (!isDesktop) {
+                    if (info.offset.x > 100) handlePrev();
+                    else if (info.offset.x < -100) handleNext();
+                  }
                 }}
               >
                 <Image
@@ -115,6 +123,37 @@ export default function GalleryPage() {
                   fill
                   className="object-contain select-none pointer-events-none"
                 />
+
+                {/* X button desktop */}
+                {isDesktop && (
+                  <button
+                    className="absolute top-4 right-4 text-white/80 hover:text-[#C8A97E] p-2 rounded-full transition duration-300"
+                    onClick={() => setSelectedIndex(null)}
+                    aria-label="Fermer"
+                  >
+                    <FaTimes className="text-xl" />
+                  </button>
+                )}
+
+                {/* Left & Right arrows desktop */}
+                {isDesktop && (
+                  <>
+                    <button
+                      className="absolute left-0 top-1/2 -translate-y-1/2 text-white/70 hover:text-[#C8A97E] px-4 py-6 transition duration-300"
+                      onClick={handlePrev}
+                      aria-label="Précédent"
+                    >
+                      <FaArrowLeft className="text-2xl" />
+                    </button>
+                    <button
+                      className="absolute right-0 top-1/2 -translate-y-1/2 text-white/70 hover:text-[#C8A97E] px-4 py-6 transition duration-300"
+                      onClick={handleNext}
+                      aria-label="Suivant"
+                    >
+                      <FaArrowRight className="text-2xl" />
+                    </button>
+                  </>
+                )}
               </motion.div>
             </div>
           </motion.div>

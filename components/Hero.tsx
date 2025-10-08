@@ -42,7 +42,7 @@ export default function Hero() {
             href="/menu"
             className="bg-[#A3B18A] hover:bg-[#859E76] text-[#3B1F1F] font-semibold px-8 py-4 rounded-full shadow-lg transition"
           >
-            Voir le menu
+            Explorer le menu
           </Link>
         </motion.div>
       </div>

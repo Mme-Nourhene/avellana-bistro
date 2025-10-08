@@ -136,10 +136,11 @@ export default function MenuSection() {
                     key={i}
                     className="flex flex-col px-4 py-2 rounded-xl hover:bg-[#EAE3D9] transition-colors duration-300 shadow-sm font-medium"
                   >
-                    <div className="flex justify-between w-full">
-                      <span className="text-lg">{item.name}</span>
-                      <span className="text-lg font-semibold">{item.price}</span>
-                    </div>
+                    <div className="flex justify-between items-center w-full gap-x-10 sm:gap-x-16">
+  <span className="text-lg text-left">{item.name}</span>
+  <span className="text-lg font-semibold text-right whitespace-nowrap">{item.price}</span>
+</div>
+
                     {item.description && (
                       <span className="text-sm text-gray-500 mt-1">{item.description}</span>
                     )}
