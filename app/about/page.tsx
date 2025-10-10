@@ -52,8 +52,8 @@ export default function AboutPage() {
         {/* Grille responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
           {[
-            { name: 'Imed', role: 'Propriétaire', photo: '/team.jpg' },
-            { name: 'Bilel', role: 'Barista & passion café', photo: '/team.jpg' },
+            { name: 'Imed', role: 'Propriétaire', photo: '/imed.jpg' },
+            { name: 'Bilel', role: 'Barista & passion café', photo: '/bilel.jpg' },
           ].map((person, index) => (
             <motion.div
               key={person.name}
